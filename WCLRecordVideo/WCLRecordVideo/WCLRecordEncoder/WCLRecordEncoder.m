@@ -74,13 +74,26 @@
 }
 
 //初始化视频输入
+//sign: rain
 - (void)initVideoInputHeight:(NSInteger)cy width:(NSInteger)cx {
+    
+    // 帧率和码率设置
+    NSDictionary *compressionProperties = @{ AVVideoExpectedSourceFrameRateKey : @(30),
+                                             AVVideoAverageBitRateKey : @(518400) }; //< 设置的这个码率值来源于微信小视频码率
+    
     //录制视频的一些配置，分辨率，编码方式等等
+//    NSDictionary* settings = [NSDictionary dictionaryWithObjectsAndKeys:
+//                              AVVideoCodecH264, AVVideoCodecKey,
+//                              [NSNumber numberWithInteger: cx], AVVideoWidthKey,
+//                              [NSNumber numberWithInteger: cy], AVVideoHeightKey,
+//                              nil];
+    
     NSDictionary* settings = [NSDictionary dictionaryWithObjectsAndKeys:
                               AVVideoCodecH264, AVVideoCodecKey,
                               [NSNumber numberWithInteger: cx], AVVideoWidthKey,
-                              [NSNumber numberWithInteger: cy], AVVideoHeightKey,
+                              [NSNumber numberWithInteger: cy], AVVideoHeightKey,compressionProperties,AVVideoCompressionPropertiesKey,
                               nil];
+    
     //初始化视频写入类
     _videoInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo outputSettings:settings];
     //表明输入是否应该调整其处理为实时数据源的数据
